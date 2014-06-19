@@ -6,10 +6,10 @@ Go Daddy Ansible playbooks for managing OpenStack infrastructure.
 Also available publically at https://github.com/godaddy/openstack-ansible
 
 This assumes your baseline Ansible config is at `/etc/ansible`, and this repo is cloned
-to `/etc/ansible/playbooks`
+to `/etc/ansible/playbooks`  (Specifically, the playbooks assume the path to the tasks directory is `/etc/ansible/playbooks/tasks`,
+so if you are cloning this repo somewhere else, you'll need to adjust that.)
 
-Additionally, the playbooks assume the path to the tasks directory is `/etc/ansible/playbooks/tasks`,
-so if you are cloning this repo somewhere else, you'll need to adjust that.
+Patches/comments/complaints welcomed and encouraged!  Create an issue or PR here.
 
 Usage Details
 -------------
@@ -17,13 +17,13 @@ Usage Details
 Playbooks are "shebanged" with `#!/usr/bin/env ansible-playbook --forks 50`, so you can actually 
 just run them directly from the command line.
 
-We have the concept of "worlds", which correspond to dev, test, prod, etc., environments.  We use
+We have the concept of "worlds", which correspond to dev, test, prod, etc., servers.  We use
 the world teminology to avoid confusion with the Puppet environment setting (which, for us, 
 corresponds to a branch in our [openstack-puppet](https://github.com/godaddy/openstack-puppet) repo.)  So when you see references to the world
 variable, that's what it is.  Right now only a couple playbooks utilize that, so for the most
 part you can probably use these without worrying about defining a world variable.
 
-puppet-run.yaml r10k-deploy.yaml are fairly specific to our environment, and are probably
+puppet-run.yaml and r10k-deploy.yaml are fairly specific to our environment, and are probably
 mostly irrelevant unless you're also using our openstack-puppet repo for Puppet configuration.
 
 Basic usage for the other playbooks follows.
@@ -51,9 +51,9 @@ Usage:
 
     ./template-prestage.yaml -k -K -e "image_uuid=<uuid> image_sha1=<sha1> image_md5=<md5> tracker_host=<glance server> hosts_to_update=<compute host group>"
 
-* _image_uuid_: UUID of the image to prestage (from 'nova image-list' or 'glance image-list')
-* _image_sha1_: SHA1 sum of the image_uuid (this can be gotten by running: echo -n "<image_uuid>" | sha1sum | awk '{print $1'}  on any Linux box)
-* _image_md5_: MD5 sum of the image file itsemf (this can be gotten by running: md5sum /var/lib/glance/images/<image_uuid> | awk '{print $1}' on the glance server
+* _image_uuid_: UUID of the image to prestage (from `nova image-list` or `glance image-list`)
+* _image_sha1_: SHA1 sum of the image_uuid (this can be gotten by running: `echo -n "<image_uuid>" | sha1sum | awk '{print $1}'`  on any Linux box)
+* _image_md5_: MD5 sum of the image file itsemf (this can be gotten by running: `md5sum /var/lib/glance/images/<image_uuid> | awk '{print $1}'` on the Glance server
 * _tracker_host_: This is the Glance server host that runs the tracker
 * _hosts_to_update_: This is the host group to place the image onto (a list of compute nodes)
 
@@ -90,7 +90,7 @@ Restarts some (or all) openstack services on hosts.  Note that this uses the `to
 from the [godaddy/openstack-puppet](https://github.com/godaddy/openstack-puppet) repo, so you may want to look at that before trying to use this playbook.
 
 This is also somewhat specific to our environment, as far as how we group services together (most of 
-them run on the "app" class of server.  So results and usefulness may vary.
+them run on the "app" class of server.)  So results and usefulness may vary.
 
     ./restartworld.yaml -k -K -e "class=<server class> hosts=<host group> service=<service class>"
 
