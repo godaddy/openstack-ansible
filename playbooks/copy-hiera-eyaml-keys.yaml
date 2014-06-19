@@ -13,4 +13,4 @@
 - hosts: '{{ hosts }}'
   sudo: yes
   tasks:
-  - include: /etc/ansible/tasks/copy-hiera-eyaml-keys.yaml
+  - include: /etc/ansible/playbooks/tasks/copy-hiera-eyaml-keys.yaml

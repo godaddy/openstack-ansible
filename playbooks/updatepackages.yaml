@@ -19,7 +19,7 @@
   vars: 
     puppet: false
   tasks:
-  - include: /etc/ansible/tasks/update-packages.yaml
+  - include: /etc/ansible/playbooks/tasks/update-packages.yaml
 
-  - include: /etc/ansible/tasks/puppet-run.yaml
+  - include: /etc/ansible/playbooks/tasks/puppet-run.yaml
     when: puppet

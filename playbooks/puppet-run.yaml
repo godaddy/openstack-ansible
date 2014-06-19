@@ -19,4 +19,4 @@
 - hosts: '{{ hosts }}'
   sudo: yes
   tasks:
-  - include: /etc/ansible/tasks/puppet-run.yaml
+  - include: /etc/ansible/playbooks/tasks/puppet-run.yaml
