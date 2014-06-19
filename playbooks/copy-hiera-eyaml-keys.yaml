@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook --forks 50
+---
+#
+# This playbook supports the following variables:
+#
+# hosts - host(s)/group(s) on which to run this playbook (REQUIRED)
+# srcdir - source directory for the hiera-eyaml-{private,public}_key.pkcs7.pem files (REQUIRED)
+#
+# Example:
+#   ansible-playbook copy-hiera-eyaml-keys.yaml -k -K --extra-vars "hosts=dev-openstack srcdir=~/.eyaml/"
+#
+
+- hosts: '{{ hosts }}'
+  sudo: yes
+  tasks:
+  - include: /etc/ansible/tasks/copy-hiera-eyaml-keys.yaml

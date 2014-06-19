@@ -1,0 +1,25 @@
+#!/usr/bin/env ansible-playbook -f 50
+---
+#This playbook requires the following variables:
+# hosts - this is the host(s) that you are trying to run on any host in the hosts file is valid
+# puppet - { true | false } run Puppet after updating (Optional arguments for puppet below)
+# package - { * | package_name }
+
+#This playbook also has the following optionable variables:
+# world - this is the server world that you want to trying to run against: {dev|test|stage|prod|appfirst}} - Note: This should auto-populate via group_vars
+# branch - the Puppet branch to deploy - Note: this should auto-populate via group_vars
+# state - { present | latest | absent } - Defaults to "latest"
+
+#Usage: 
+#Updating a package: ansible-playbook updatepackage.yaml -k -K --extra-vars "hosts=dev-openstack package=*"
+#updating a package and running puppet: ansbile-playbook updatepackage.yaml -k -K --extra-vars "hosts=dev-openstack package=* puppet=true"
+
+- hosts: '{{ hosts }}'
+  sudo: yes
+  vars: 
+    puppet: false
+  tasks:
+  - include: /etc/ansible/tasks/update-packages.yaml
+
+  - include: /etc/ansible/tasks/puppet-run.yaml
+    when: puppet

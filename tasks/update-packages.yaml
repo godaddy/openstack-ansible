@@ -1,0 +1,2 @@
+  - name: Updating package(s)
+    yum: name={{ package }} state={{ state | default('latest') }}

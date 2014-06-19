@@ -1,0 +1,22 @@
+#!/usr/bin/env ansible-playbook --forks 50
+---
+#
+# This playbook supports the following variables:
+#
+# hosts - host(s)/group(s) on which to run this playbook (REQUIRED)
+# world - this is the server world that you are trying to run against: {dev|test|stage|prod|appfirst}}
+#   Note: This should get pulled in automatically via group_vars if you are calling against a host
+#         "group" name.  If you're running the playbook against a single host, you will need to
+#         explicitly specify the world variable
+# branch - the Puppet branch to deploy. Defaults to "master" for world=dev|test, and "prod" for
+#         world=stage|prod|appfirst
+#
+# Example:
+#   To run without changing the plabook with differnt uuids run ansible-plabook with the following:
+#   ansible-playbook run-puppet.yaml -k -K --extra-vars "hosts=dev-openstack branch=my_branch"
+#
+
+- hosts: '{{ hosts }}'
+  sudo: yes
+  tasks:
+  - include: /etc/ansible/tasks/puppet-run.yaml

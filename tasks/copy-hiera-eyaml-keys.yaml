@@ -1,0 +1,6 @@
+  - name: Copy hiera-eyaml private key to target server 
+    copy: src={{ srcdir }}/hiera-eyaml-private_key.pkcs7.pem dest=/etc/pki/tls/private/hiera-eyaml-private_key.pkcs7.pem
+  - name: Copy hiera-eyaml public key to target server 
+    copy: src={{ srcdir }}/hiera-eyaml-public_key.pkcs7.pem dest=/etc/pki/tls/private/hiera-eyaml-public_key.pkcs7.pem
+  - name: Set proper permissions on hiera-eyaml keys
+    shell: chown root:root /etc/pki/tls/private/hiera-eyaml* && chmod 0600 /etc/pki/tls/private/hiera-eyaml-private_key.pkcs7.pem && chmod 0644 /etc/pki/tls/private/hiera-eyaml-public_key.pkcs7.pem

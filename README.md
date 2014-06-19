@@ -1,4 +1,8 @@
 ansible-playbooks
 =================
 
-Ansible playbooks for managing OpenStack infrastructure
+Go Daddy Ansible playbooks for managing OpenStack infrastructure.
+
+Example usage:
+
+

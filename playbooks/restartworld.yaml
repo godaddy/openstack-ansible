@@ -1,0 +1,20 @@
+#!/usr/bin/env ansible-playbook --forks 50
+---
+#This playbook requires the following variables:
+# class - this is the serve type that you are trying to run against: {app, network, network-af, compute}} - Note this should get pulled in automatically via group_vars
+# hosts - this is the host(s) that you are trying to run on any host in the hosts file is valid
+# service - service group that you would like to restart [nova,keystone,glance,ceilometer,heat,neutron,spice,els,world]
+# world - Puppet world - Note this should get pulled in automatically via group_vars
+
+#Exmplae usage:
+#ansible-playbook restartworld.yaml -k -K --extra-vars "class=app service=world hosts=dev-openstack"
+
+- hosts: '{{ hosts }}'
+  sudo: yes
+  tasks:
+  - name: Run restart world script (master)
+    shell: "bash /etc/puppet/environments/master/tools/restartworld.sh {{ service }} {{ class }}"
+    when: world == "dev" or world == "test"
+  - name: Run restart world script (prod)
+    shell: "bash /etc/puppet/environments/prod/tools/restartworld.sh {{ service }} {{ class }}"
+    when: world != "dev" and world != "test"

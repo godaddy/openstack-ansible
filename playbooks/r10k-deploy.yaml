@@ -1,0 +1,19 @@
+#!/usr/bin/env ansible-playbook --forks 50
+---
+#
+# This playbook supports the following variables:
+#
+# hosts - this is the host(s) that you are trying to run on any host in the hosts file is valid
+# redeploy - remove existing Puppet environments and r10k cache before deploying
+#
+
+- hosts: '{{ hosts }}'
+  sudo: yes
+  vars:
+    redeploy: false
+  tasks:
+  - name: Clear Puppet environments and r10k cache
+    shell: rm -rf /etc/puppet/environments/* /var/cache/r10k/*
+    when: redeploy
+  - name: Deploy all r10k environments (with retry)
+    shell: 'r10k deploy environment -pv || ( sleep `let "a = $RANDOM / 2000"; echo $a` && r10k deploy environment -pv )'
