@@ -18,7 +18,7 @@
   serial: 1
   tasks:
   - name: Gather list of all running vm's
-    shell: source /root/keystonerc_admin; nova list --all-tenants --status Active --fields host,OS-EXT-SRV-ATTR:instance_name,status | grep ACTIVE | awk -F" | " '{if(a[$4]){a[$4]=a[$4]","$2"+"$6} else { a[$4]=$2"+"$6}} END {for (i in a) { print i":"a[i]} }'
+    shell: source /root/keystonerc_admin; nova list --all-tenants --status Active --host {{inventory_hostname}} --fields host,OS-EXT-SRV-ATTR:instance_name,status | grep ACTIVE | awk -F" | " '{if(a[$4]){a[$4]=a[$4]","$2"+"$6} else { a[$4]=$2"+"$6}} END {for (i in a) { print i":"a[i]} }'
     register: running_vms
     delegate_to: '{{ api_server }}'
 
