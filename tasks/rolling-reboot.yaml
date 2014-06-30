@@ -5,7 +5,7 @@
     tags: reboot
 
   - name: Waiting for port after reboot
-    wait_for: host={{ inventory_hostname }} port={{ reboot_check_port | default('22') }} delay={{ wait_delay | default('60') }} state=started
+    wait_for: host={{ inventory_hostname }} port={{ reboot_check_port | default('22') }} delay={{ wait_delay | default('600') }} state=started
     connection: local
     sudo: false
     tags: reboot
