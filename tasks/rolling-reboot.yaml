@@ -1,7 +1,7 @@
 ---
 
   - name: Rebooting Server
-    command: sleep 2 && /sbin/shutdown -r now &
+    shell: sleep 2 && /sbin/shutdown -r now &
     tags: reboot
   
   - name: Waiting for port to go down from server reboot
