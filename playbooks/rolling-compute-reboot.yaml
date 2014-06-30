@@ -1,4 +1,4 @@
-#!/usr/bin/env ansible-playbook --forks 1
+#!/usr/bin/env ansible-playbook --forks 50
 ---
 #This playbook requires the following variables:
 # api_server - this is the server that runs the nova-api instance that we will use to get a list of the running vm's on compute nodes
