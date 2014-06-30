@@ -21,4 +21,7 @@
   - include: /etc/ansible/playbooks/tasks/rolling-reboot.yaml
 
   - name: Verify running vm's are still running
-    shell: 
+    shell: rc=$(echo "0"); vmlist=$( echo "{{running_vms.stdout }}" | grep {{inventory_hostname }} |cut -d":" -f2,2 |awk -F"," '{for (i=1; i<=NF; i++) print $i}'); virshlist=$( virsh list | grep running | awk '{print $2}'); for i in $vmlist; do vm=$( echo $i | cut -d"+" -f2,2 ); tmp=$( echo "$virshlist" | grep $vm); if [ $? -eq 1 ]; then uuid=$( echo "$i" | cut -d"+" -f1,1); echo "$uuid"; rc=$(echo "1"); fi; done; if [ "$rc" == "1" ]; then false; else true; fi
+    register: vms_not_running
+  - debug: msg="{{vms_not_running}}"
+    when: vms_not_running.rc == 1
