@@ -6,6 +6,7 @@
   
   - name: Waiting for port to go down from server reboot
     wait_for: host={{ inventory_hostname }} port={{ reboot_check_port | default('22') }} timeout={{ wait_timeout | default('600') }} state=stopped
+    connection: local
     sudo: false
     tags: reboot
 
