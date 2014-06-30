@@ -12,12 +12,11 @@
 - hosts: '{{ hosts }}'
   sudo: yes
   tasks:
-  - name: Ensure JQ is installed
-    yum: name=jq state=present    
   - name: Gather list of all running vm's
     shell: source /root/keystonerc_admin; nova list --all-tenants --status Active --fields host,OS-EXT-SRV-ATTR:instance_name,status | grep ACTIVE | awk -F" | " '{if(a[$4]){a[$4]=a[$4]","$2"+"$6} else { a[$4]=$2"+"$6}} END {for (i in a) { print i":"a[i]} }'
     register: running_vms
     delegate_to: {{ api_server }}
+
   - include: /etc/ansible/playbooks/tasks/rolling_reboot.yaml
 
   - name: Verify running vm's are still running
